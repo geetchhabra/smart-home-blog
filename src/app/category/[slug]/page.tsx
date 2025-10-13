@@ -34,8 +34,6 @@ const itemVariants = {
 }
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
-   const { slug } = use(params)
-  
   const [category, setCategory] = useState<Category | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -53,13 +51,12 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
           categories[]->{ _id, title, slug }
         }
       }`
-      const fetchedCategory = await client.fetch(query, { slug })
+      const fetchedCategory = await client.fetch(query, { slug: params.slug })
       setCategory(fetchedCategory)
       setLoading(false)
     }
     getCategory()
-  }, [slug])
-
+  }, [params.slug])
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">

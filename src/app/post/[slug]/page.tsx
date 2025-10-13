@@ -126,13 +126,18 @@ const portableTextComponents: PortableTextComponents = {
   },
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const post = await getPost(params.slug)
-
+export default function PostPage({ params }: { params: { slug: string } }) {
+  // Remove the use() call, access params.slug directly
+  
+  useEffect(() => {
+    const getPost = async () => {
+      const query = `...`
+      const fetchedPost = await client.fetch(query, { slug: params.slug })  // ✅ Use params.slug
+      setPost(fetchedPost)
+      setLoading(false)
+    }
+    getPost()
+  }, [params.slug])
   if (!post) {
     return <div>Post not found</div>
   }
