@@ -1,103 +1,142 @@
-import Image from "next/image";
+// src/app/page.tsx
+"use client";
+
+import { client } from '@/lib/sanity';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import PostCard from '@/components/PostCard';
+import PageHero from '@/components/PageHero';
+import Link from 'next/link';
+
+interface Post {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  mainImage: any;
+  categories: any[];
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [posts, setPosts] = useState<Post[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+  useEffect(() => {
+    const getPosts = async () => {
+      const query = `*[_type == "post" && publishedAt < now()] | order(publishedAt desc) [0...6]{
+        _id,
+        title,
+        slug,
+        excerpt,
+        mainImage,
+        "categories": categories[]->{ _id, title, slug },
+        publishedAt
+      }`;
+      const fetchedPosts = await client.fetch(query);
+      setPosts(fetchedPosts);
+    };
+    getPosts();
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Hero Section */}
+      <PageHero
+        badge="Smart Living Redefined"
+        title="The Future of Living, Today."
+        description="Your ultimate guide to the world of smart home technology. Discover reviews, tutorials, and the latest trends to build a smarter home."
+        height="tall"
+      >
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#articles"
+            className="w-full sm:w-auto text-center px-6 sm:px-8 py-3 sm:py-4 bg-brand hover:bg-brand-dark rounded-lg font-semibold text-white shadow-lg shadow-brand/50 hover:shadow-glow-brand transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            Explore Articles →
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/categories"
+            className="w-full sm:w-auto text-center px-6 sm:px-8 py-3 sm:py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg font-semibold text-white border border-white/20 hover:border-white/40 transition-all duration-300 text-sm sm:text-base"
           >
-            Read our docs
-          </a>
+            Browse Categories
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </PageHero>
+
+      {/* Blog Post Grid */}
+      <section id="articles" className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-3 sm:mb-4 bg-gradient-to-r from-brand via-purple-600 to-brand bg-clip-text text-transparent px-4">
+              Latest Articles
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto px-4">
+              Stay up-to-date with the latest smart home innovations, guides, and expert reviews
+            </p>
+          </motion.div>
+
+          {posts.length > 0 ? (
+            <>
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12"
+              >
+                {posts.map((post, index) => (
+                  <motion.div key={post._id} variants={itemVariants}>
+                    <PostCard post={post} index={index} />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <Link
+                  href="/articles"
+                  className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-brand to-brand-dark hover:from-brand-dark hover:to-purple-700 rounded-lg font-semibold text-white shadow-lg shadow-brand/50 hover:shadow-glow-brand transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+                >
+                  View All Articles →
+                </Link>
+              </motion.div>
+            </>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-12 sm:py-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800/80"
+            >
+              <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 px-4">
+                No articles published yet. Check back soon!
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
