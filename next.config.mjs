@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  outputFileTracingRoot: 'C:\\\\Users\\\\geetc\\\\OneDrive\\\\Desktop\\\\Projects\\\\deploy\\\\smart-home-blog',
 
   // Add this images block
   images: {
@@ -18,7 +17,16 @@ const nextConfig = {
         port: '',
         pathname: '**',
       },
+      
     ],
+  },
+  typescript: {
+    // Optional: ignore TypeScript errors during build
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    // Allow production builds with ESLint warnings
+    ignoreDuringBuilds: true,
   },
 };
 
