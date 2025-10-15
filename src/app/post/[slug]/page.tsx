@@ -171,7 +171,7 @@ export default async function PostPage({
         <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800/80 mb-16">
           {/* Hero Image */}
           {post.mainImage && (
-            <div className="relative h-64 md:h-[450px] w-full rounded-t-2xl overflow-hidden">
+            <div className="relative w-full aspect-[16/9] rounded-t-2xl overflow-hidden">
               <Image
                 src={urlFor(post.mainImage).url()}
                 alt={post.mainImage.alt || 'Post image'}
