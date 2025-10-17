@@ -133,7 +133,7 @@ export default function TermsPage() {
               <strong>ConnectedHome</strong>
             </p>
             <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
-              Email: contact@yourdomain.com
+              Email: connectedhometech@protonmail.com
             </p>
             <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
               For more information, visit our <Link href="/contact" className="text-brand hover:underline">Contact Page</Link>.

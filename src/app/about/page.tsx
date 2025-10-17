@@ -91,13 +91,13 @@ export default function AboutPage() {
             className="bg-gradient-to-br from-brand/10 to-purple-500/10 dark:from-brand/20 dark:to-purple-500/20 backdrop-blur-md rounded-2xl shadow-lg border border-brand/20 p-8 md:p-12"
           >
             <h2 className="text-3xl font-bold font-display text-ink dark:text-white mb-6">
-              About the Author
+              About the Authors
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-              I&apos;m a tech enthusiast with a passion for home automation. After years of experimenting with countless smart devices, I created this blog to share my findings, tutorials, and reviews with a wider audience.
+              We are professional tech enthusiast with a passion for home automation. After years of experimenting with countless smart devices, We have created this blog to share our findings, tutorials, and reviews with a wider audience.
             </p>
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              My goal is to be your trusted resource in the exciting and ever-evolving landscape of smart living.
+              Our goal is to be your trusted resource in the exciting and ever-evolving landscape of smart living.
             </p>
           </motion.div>
         </div>

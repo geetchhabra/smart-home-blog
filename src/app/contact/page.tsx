@@ -33,10 +33,10 @@ export default function ContactPage() {
             </p>
             <div className="text-center">
               <a
-                href="mailto:contact@yourdomain.com"
+                href="mailto:connectedhometech@protonmail.com"
                 className="inline-block text-2xl font-semibold text-brand dark:text-brand-light hover:underline transition-all"
               >
-                contact@yourdomain.com →
+                connectedhometech@protonmail.com →
               </a>
             </div>
           </motion.div>
