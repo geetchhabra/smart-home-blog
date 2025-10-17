@@ -35,7 +35,7 @@ export default function Home() {
 
   useEffect(() => {
     const getPosts = async () => {
-      const query = `*[_type == "post" && publishedAt < now()] | order(publishedAt desc) [0...6]{
+      const query = `*[_type == "post" && publishedAt < now()] | order(publishedAt desc) [0...9]{
         _id,
         title,
         slug,
@@ -131,7 +131,7 @@ export default function Home() {
               className="text-center py-12 sm:py-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800/80"
             >
               <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 px-4">
-                No articles published yet. Check back soon!
+                Loading Articles ....
               </p>
             </motion.div>
           )}

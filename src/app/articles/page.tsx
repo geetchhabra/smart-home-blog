@@ -56,7 +56,7 @@ export default function ArticlesPage() {
               className="text-center py-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800/80"
             >
               <p className="text-xl text-slate-500 dark:text-slate-400">
-                No articles published yet.
+                Loading Articles....
               </p>
             </motion.div>
           )}
