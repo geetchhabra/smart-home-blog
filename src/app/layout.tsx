@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from '@vercel/analytics/react'
 import Script from "next/script";
+import { GoogleAnalytics } from '@next/third-parties/google'; 
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -57,6 +58,8 @@ export default function RootLayout({
             <main>
               {children}
               <Analytics />
+          
+          <GoogleAnalytics gaId="G-PJLG1CG6P4" /> {/* Replace with your ID */}
             </main>
             <Footer />
           </div>
