@@ -13,30 +13,33 @@ export default function ContactPage() {
         description="Have a question, a tip, or just want to say hello? We'd love to hear from you."
       />
 
-      <section className="relative py-20 px-6">
+      {/* Fixed responsive padding */}
+      <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800/80 p-8 md:p-12 mb-8"
+            className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800/80 p-6 sm:p-8 md:p-12 mb-6 sm:mb-8"
           >
-            <div className="text-center mb-8">
-              <span className="text-6xl mb-4 block">📧</span>
-              <h2 className="text-3xl font-bold font-display text-ink dark:text-white mb-4">
+            <div className="text-center mb-6 sm:mb-8">
+              <span className="text-5xl sm:text-6xl mb-3 sm:mb-4 block">📧</span>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-ink dark:text-white mb-3 sm:mb-4">
                 Email Us
               </h2>
             </div>
-            <p className="text-lg text-slate-600 dark:text-slate-400 text-center mb-6">
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 text-center mb-4 sm:mb-6">
               The best way to reach us is by email. For all inquiries, please send a message to:
             </p>
-            <div className="text-center">
+            
+            {/* Fixed email display */}
+            <div className="text-center px-2">
               <a
                 href="mailto:connectedhometech@protonmail.com"
-                className="inline-block text-2xl font-semibold text-brand dark:text-brand-light hover:underline transition-all"
+                className="inline-block text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-brand dark:text-brand-light hover:underline transition-all break-all"
               >
-                connectedhometech@protonmail.com →
+                connectedhometech@protonmail.com
               </a>
             </div>
           </motion.div>
@@ -46,17 +49,17 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-gradient-to-br from-brand/10 to-purple-500/10 dark:from-brand/20 dark:to-purple-500/20 backdrop-blur-md rounded-2xl shadow-lg border border-brand/20 p-8 md:p-12"
+            className="bg-gradient-to-br from-brand/10 to-purple-500/10 dark:from-brand/20 dark:to-purple-500/20 backdrop-blur-md rounded-2xl shadow-lg border border-brand/20 p-6 sm:p-8 md:p-12"
           >
-            <h2 className="text-2xl font-bold font-display text-ink dark:text-white mb-4 text-center">
+            <h2 className="text-xl sm:text-2xl font-bold font-display text-ink dark:text-white mb-3 sm:mb-4 text-center">
               Response Time
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 text-center mb-6">
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 text-center mb-4 sm:mb-6">
               We do our best to respond to all messages within 48 hours. We look forward to connecting!
             </p>
             <div className="flex items-center justify-center text-brand dark:text-brand-light">
-              <span className="text-4xl mr-3">⚡</span>
-              <span className="text-lg font-semibold">Usually within 24-48 hours</span>
+              <span className="text-3xl sm:text-4xl mr-2 sm:mr-3">⚡</span>
+              <span className="text-base sm:text-lg font-semibold">Usually within 24-48 hours</span>
             </div>
           </motion.div>
         </div>
