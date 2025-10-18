@@ -5,7 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { Analytics } from '@vercel/analytics/react'
+import { Analytics } from '@vercel/analytics/react';
 import Script from "next/script";
 import { GoogleAnalytics } from '@next/third-parties/google'; 
 
@@ -31,16 +31,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${sora.variable}`}>
-       <head>
-        {/* Google AdSense */}
+      <body className="font-sans bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-50 min-h-screen transition-colors duration-300">
+        {/* Google AdSense - Move OUTSIDE head, into body */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7045400640740114"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-      </head>
-      <body className="font-sans bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-50 min-h-screen transition-colors duration-300">
+        
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/* Animated Background Elements */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -57,12 +56,13 @@ export default function RootLayout({
             <Header />
             <main>
               {children}
-              <Analytics />
-          
-          <GoogleAnalytics gaId="G-PJLG1CG6P4" /> {/* Replace with your ID */}
             </main>
             <Footer />
           </div>
+          
+          {/* Analytics - Move to end of body */}
+          <Analytics />
+          <GoogleAnalytics gaId="G-PJLG1CG6P4" />
         </ThemeProvider>
       </body>
     </html>
