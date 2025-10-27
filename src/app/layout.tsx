@@ -22,6 +22,13 @@ const sora = Sora({
 export const metadata: Metadata = {
   title: "ConnectedHome - Your Smart Home Guide",
   description: "Articles, reviews, and guides for home automation and smart tech.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon", sizes: "48x48" },
+      { url: "/favicon.png", type: "image/png", sizes: "96x96" }
+    ],
+    apple: "/favicon.png",
+  }
 };
 
 export default function RootLayout({
