@@ -1,13 +1,16 @@
 // src/app/privacy/page.tsx
-'use client'
-
-import { motion } from 'framer-motion'
+// NO 'use client'
 import PageHero from '@/components/PageHero'
 import Link from 'next/link'
+import type { Metadata } from 'next'; // Import Metadata
+
+// 1. Add Metadata
+export const metadata: Metadata = {
+  title: 'Privacy Policy | ConnectedHome',
+  description: 'Learn how ConnectedHome collects, uses, and protects your personal information.',
+};
 
 export default function PrivacyPage() {
-  
-
   return (
     <div className="relative">
       <PageHero
@@ -18,15 +21,11 @@ export default function PrivacyPage() {
 
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          {/* 2. Replaced motion.div with div */}
+          <div
             className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800/80 p-8 md:p-12"
           >
             
-
             <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
               <div>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -143,7 +142,7 @@ export default function PrivacyPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

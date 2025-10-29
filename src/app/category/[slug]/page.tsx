@@ -1,13 +1,12 @@
 // src/app/category/[slug]/page.tsx
-'use client'
 
 import { client } from '@/lib/sanity'
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import PostCard from '@/components/PostCard'
 import PageHero from '@/components/PageHero'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
+// Interface for Post (can be shared or defined here)
 interface Post {
   _id: string
   title: string
@@ -17,71 +16,63 @@ interface Post {
   categories?: any[]
 }
 
+// Interface for the fetched Category data
 interface Category {
   title: string
   description?: string
   posts: Post[]
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
-}
+// 1. Add generateMetadata function for dynamic titles/descriptions
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata> {
+  const query = `*[_type == "category" && slug.current == $slug][0]{
+    title,
+    description
+  }`
+  const category = await client.fetch(query, { slug: params.slug })
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
-}
-
-// Fix: Add proper type that satisfies Next.js 15 requirements
-type PageProps = {
-  params: Promise<{ slug: string }> | { slug: string }
-}
-
-export default function CategoryPage({ params }: PageProps) {
-  const [category, setCategory] = useState<Category | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [slug, setSlug] = useState<string | null>(null)
-
-  useEffect(() => {
-    const resolveParams = async () => {
-      // Handle both Promise and direct params
-      const resolvedParams = await Promise.resolve(params)
-      setSlug(resolvedParams.slug)
+  if (!category) {
+    return {
+      title: 'Category Not Found',
     }
-    resolveParams()
-  }, [params])
-
-  useEffect(() => {
-    if (!slug) return
-
-    const getCategory = async () => {
-      const query = `*[_type == "category" && slug.current == $slug][0]{
-        title,
-        description,
-        "posts": *[_type == "post" && references(^._id) && publishedAt < now()] | order(publishedAt desc) {
-          _id,
-          title,
-          slug,
-          excerpt,
-          mainImage,
-          categories[]->{ _id, title, slug }
-        }
-      }`
-      const fetchedCategory = await client.fetch(query, { slug })
-      setCategory(fetchedCategory)
-      setLoading(false)
-    }
-    getCategory()
-  }, [slug])
-
-  if (loading || !slug) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400">Loading category...</p>
-      </div>
-    )
   }
+
+  return {
+    title: `${category.title} | ConnectedHome`,
+    description: category.description || `Articles in the ${category.title} category.`,
+  }
+}
+
+// 2. Server-side data fetching function
+async function getCategory(slug: string) {
+  const query = `*[_type == "category" && slug.current == $slug][0]{
+    title,
+    description,
+    "posts": *[_type == "post" && references(^._id) && publishedAt < now()] | order(publishedAt desc) {
+      _id,
+      title,
+      slug,
+      excerpt,
+      mainImage,
+      categories[]->{ _id, title, slug }
+    }
+  }`
+  const fetchedCategory = await client.fetch<Category>(query, { slug })
+  return fetchedCategory
+}
+
+// 3. Page component is now async
+export default async function CategoryPage({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const { slug } = params
+  const category = await getCategory(slug)
 
   if (!category) {
     return (
@@ -120,28 +111,24 @@ export default function CategoryPage({ params }: PageProps) {
       <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           {category.posts && category.posts.length > 0 ? (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
+            // 4. Replaced motion.div with div
+            <div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
               {category.posts.map((post, index) => (
-                <motion.div key={post._id} variants={itemVariants}>
-                  <PostCard post={post} index={index} />
-                </motion.div>
+                // PostCard is a Client Component, so it's fine
+                <PostCard post={post} index={index} key={post._id} />
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            // 4. Replaced motion.div with div
+            <div
               className="text-center py-12 sm:py-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800/80"
             >
               <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 px-4">
                 No articles in this category yet.
               </p>
-            </motion.div>
+            </div>
           )}
         </div>
       </section>

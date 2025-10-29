@@ -1,8 +1,13 @@
 // src/app/contact/page.tsx
-'use client'
-
-import { motion } from 'framer-motion'
+// NO 'use client'
 import PageHero from '@/components/PageHero'
+import type { Metadata } from 'next'; // Import Metadata
+
+// 1. Add Metadata
+export const metadata: Metadata = {
+  title: 'Contact Us | ConnectedHome',
+  description: 'Have a question, a tip, or just want to say hello? We\'d love to hear from you.',
+};
 
 export default function ContactPage() {
   return (
@@ -16,11 +21,8 @@ export default function ContactPage() {
       {/* Fixed responsive padding */}
       <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          {/* 2. Replaced motion.div with div */}
+          <div
             className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800/80 p-6 sm:p-8 md:p-12 mb-6 sm:mb-8"
           >
             <div className="text-center mb-6 sm:mb-8">
@@ -42,13 +44,10 @@ export default function ContactPage() {
                 connectedhometech@protonmail.com
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          {/* 2. Replaced motion.div with div */}
+          <div
             className="bg-gradient-to-br from-brand/10 to-purple-500/10 dark:from-brand/20 dark:to-purple-500/20 backdrop-blur-md rounded-2xl shadow-lg border border-brand/20 p-6 sm:p-8 md:p-12"
           >
             <h2 className="text-xl sm:text-2xl font-bold font-display text-ink dark:text-white mb-3 sm:mb-4 text-center">
@@ -61,7 +60,7 @@ export default function ContactPage() {
               <span className="text-3xl sm:text-4xl mr-2 sm:mr-3">⚡</span>
               <span className="text-base sm:text-lg font-semibold">Usually within 24-48 hours</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

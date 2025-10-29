@@ -1,12 +1,16 @@
 // src/app/page.tsx
-"use client";
-
+// NO 'use client'
 import { client } from '@/lib/sanity';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import PostCard from '@/components/PostCard';
 import PageHero from '@/components/PageHero';
 import Link from 'next/link';
+import type { Metadata } from 'next'; // Import Metadata
+
+// 1. Add Metadata for the homepage
+export const metadata: Metadata = {
+  title: "ConnectedHome - Your Smart Home Guide",
+  description: "Your ultimate guide to the world of smart home technology. Discover reviews, tutorials, and the latest trends to build a smarter home.",
+};
 
 interface Post {
   _id: string;
@@ -17,42 +21,29 @@ interface Post {
   categories: any[];
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
+// 2. Server-side data fetching function
+async function getPosts() {
+  const query = `*[_type == "post" && publishedAt < now()] | order(publishedAt desc) [0...9]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    "categories": categories[]->{ _id, title, slug },
+    publishedAt
+  }`;
+  const fetchedPosts = await client.fetch(query);
+  return fetchedPosts;
+}
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
-};
-
-export default function Home() {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    const getPosts = async () => {
-      const query = `*[_type == "post" && publishedAt < now()] | order(publishedAt desc) [0...9]{
-        _id,
-        title,
-        slug,
-        excerpt,
-        mainImage,
-        "categories": categories[]->{ _id, title, slug },
-        publishedAt
-      }`;
-      const fetchedPosts = await client.fetch(query);
-      setPosts(fetchedPosts);
-    };
-    getPosts();
-  }, []);
+// 3. Make the component async
+export default async function Home() {
+  // 4. Await the data
+  const posts: Post[] = await getPosts();
 
   return (
     <div className="relative">
-      {/* Hero Section */}
+      {/* Hero Section (PageHero is a client component, this is fine) */}
       <PageHero
         badge="Smart Living Redefined"
         title="The Future of Living, Today."
@@ -78,11 +69,8 @@ export default function Home() {
       {/* Blog Post Grid */}
       <section id="articles" className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          {/* 5. Replaced motion.div with div */}
+          <div
             className="text-center mb-8 sm:mb-12 lg:mb-16"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-3 sm:mb-4 bg-gradient-to-r from-brand via-purple-600 to-brand bg-clip-text text-transparent px-4">
@@ -91,29 +79,22 @@ export default function Home() {
             <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto px-4">
               Stay up-to-date with the latest smart home innovations, guides, and expert reviews
             </p>
-          </motion.div>
+          </div>
 
           {posts.length > 0 ? (
             <>
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
+              {/* 5. Replaced motion.div with div */}
+              <div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12"
               >
                 {posts.map((post, index) => (
-                  <motion.div key={post._id} variants={itemVariants}>
-                    <PostCard post={post} index={index} />
-                  </motion.div>
+                  // PostCard is a client component, which is fine
+                  <PostCard post={post} index={index} key={post._id} />
                 ))}
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+              {/* 5. Replaced motion.div with div */}
+              <div
                 className="text-center"
               >
                 <Link
@@ -122,18 +103,17 @@ export default function Home() {
                 >
                   View All Articles →
                 </Link>
-              </motion.div>
+              </div>
             </>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            // 5. Replaced motion.div with div
+            <div
               className="text-center py-12 sm:py-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800/80"
             >
               <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 px-4">
-                Loading Articles ....
+                No articles published yet.
               </p>
-            </motion.div>
+            </div>
           )}
         </div>
       </section>
